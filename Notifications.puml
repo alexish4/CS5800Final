@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Event occurs (e.g., new message, PenPal request);
+:NotificationService creates a notification object;
+:Notification object added to the User's notification list;
+:User device receives the notification;
+if (User interacts with notification?) then (Yes)
+  :Redirect user to relevant page (e.g., message, PenPal request);
+else (No)
+  :Notification remains in the notification list;
+endif
+stop
+
+@enduml

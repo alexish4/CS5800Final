@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User selects a PenPal;
+:VideoCallService checks permissions;
+if (Permissions granted?) then (Yes)
+  :VideoCallAdapter starts the call;
+else (No)
+  :Prompt user to enable permissions;
+  :Retry permission check;
+endif
+:Video call started;
+stop
+
+@enduml

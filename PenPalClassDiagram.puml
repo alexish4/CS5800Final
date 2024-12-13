@@ -1,0 +1,118 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User {
+    +id: int
+    +name: String
+    +email: String
+    +password: String
+    +languages: List<Language>
+    +penPals: List<PenPal>
+    +update(notification: String): void
+}
+
+class PenPal {
+    +id: int
+    +user1: User
+    +user2: User
+}
+
+class Language {
+    +id: int
+    +name: String
+}
+
+class Conversation {
+    +id: int
+    +penPal: PenPal
+    +messages: List<Message>
+}
+
+abstract class Message {
+    +id: int
+    +content: String
+    +timestamp: Date
+    +sender: User
+    +receiver: User
+}
+
+class TextMessage extends Message {
+    +translatedContent: String
+}
+
+class VoiceMessage extends Message {
+    +voiceData: byte[]
+}
+
+class VideoMessage extends Message {
+    +videoData: byte[]
+}
+
+class MessageFactory {
+    +createTextMessage(content: String, sender: User, receiver: User): TextMessage
+    +createVoiceMessage(voiceData: byte[], sender: User, receiver: User): VoiceMessage
+    +createVideoMessage(videoData: byte[], sender: User, receiver: User): VideoMessage
+}
+
+class MessagingService {
+    -MessagingService()
+    {static}+getInstance(): MessagingService
+    +sendMessage(message: Message): void
+}
+
+class CorrectionService {
+    -CorrectionService()
+    {static}+getInstance(): CorrectionService
+    +correctMessage(message: TextMessage): TextMessage
+}
+
+class NotificationService {
+    -NotificationService()
+    {static}+getInstance(): NotificationService
+    +registerObserver(user: User): void
+    +removeObserver(user: User): void
+    +notifyObservers(notification: String): void
+}
+
+class VoiceCallService {
+    -VoiceCallService()
+    {static}+getInstance(): VoiceCallService
+    +startCall(user1: User, user2: User): void
+}
+
+class VideoCallService {
+    -VoiceCallService()
+    {static}+getInstance(): VoiceCallService
+    +startCall(user1: User, user2: User): void
+}
+
+class VoiceCallAdapter {
+    +makeCall(user1: User, user2: User): void
+}
+
+class VideoCallAdapter {
+    +makeCall(user1: User, user2: User): void
+}
+
+class GrammarCorrectionAdapter {
+    +correctGrammar(content: String): String
+}
+
+User "1" -- "0*" PenPal
+PenPal "1" -- "0*" Conversation
+Conversation "1*" -- "1*" Message
+User "1" -- "1*" Language
+
+MessagingService "1" *-- "1*" Conversation
+CorrectionService "1" *-- "1*" Message
+NotificationService "1" o-- "1*" User
+VoiceCallService "1" o-- "2" User
+VideoCallService "1" o-- "2" User
+
+MessageFactory "1" *-- "1*" Message
+VoiceCallService "1" o-- VoiceCallAdapter
+VideoCallService "1" o-- VideoCallAdapter
+CorrectionService "1" o-- GrammarCorrectionAdapter
+NotificationService <|-- User
+
+@enduml

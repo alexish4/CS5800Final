@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant "PenPal" as PenPal
+participant "MessageFactory" as MessageFactory
+participant "MessagingService" as MessagingService
+participant "Conversation" as Conversation
+
+User -> PenPal: Select a PenPal
+User -> User: Write a message
+User -> MessageFactory: Create Message object
+MessageFactory --> User: Return Message object
+User -> MessagingService: Send Message object
+MessagingService -> MessagingService: Validate message
+alt Validation successful
+    MessagingService -> Conversation: Add Message to Conversation
+    Conversation --> MessagingService: Acknowledge Message added
+else Validation failed
+    MessagingService -> User: Show validation error
+end
+@enduml

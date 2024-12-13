@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User selects a PenPal;
+:VoiceCallService checks permissions;
+if (Permissions granted?) then (Yes)
+  :VoiceCallAdapter starts the call;
+else (No)
+  :Prompt user to enable permissions;
+  :Retry permission check;
+endif
+:Voice call started;
+stop
+
+@enduml

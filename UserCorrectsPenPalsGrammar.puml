@@ -1,0 +1,17 @@
+    @startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User selects a message to correct;
+:User opens correction interface;
+:GrammarCorrectionAdapter processes the correction;
+:User edits message blocks;
+if (User satisfied with correction?) then (Yes)
+  :Correction submitted;
+  :Send corrected message to PenPal;
+else (No)
+  :User continues editing;
+endif
+stop
+
+@enduml

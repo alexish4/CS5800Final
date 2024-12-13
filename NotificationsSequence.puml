@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant NotificationService
+participant UserDevice
+participant Notification
+
+User -> NotificationService: Event occurs (e.g., new message, PenPal request)
+NotificationService -> NotificationService: Create Notification object
+NotificationService -> Notification: Notification created
+Notification -> User: Added to User's notification list
+NotificationService -> UserDevice: Send notification to UserDevice
+
+alt User interacts with notification
+    UserDevice -> NotificationService: Open notification
+    NotificationService -> User: Redirect to relevant page
+else User does not interact
+    Notification -> User: Notification remains in list
+end
+@enduml

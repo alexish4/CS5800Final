@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User selects a PenPal;
+:User writes a message;
+:MessageFactory creates the Message object;
+:MessagingService validates the message;
+if (Validation successful?) then (Yes)
+  :MessagingService sends the message;
+  :Message added to Conversation;
+else (No)
+  :Show validation error;
+endif
+stop
+
+@enduml
